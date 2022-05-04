@@ -10,6 +10,9 @@ export default function Nav() {
                 <li>
                     <Link to="/charts">Chart</Link>
                 </li>
+                <li>
+                    <Link to="https://github.com/veritem/tech-assess" target="_blank">Github</Link>
+                </li>
             </ul>
         </nav>
     );
