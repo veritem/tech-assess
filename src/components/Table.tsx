@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useSortBy, useTable } from "react-table";
 import { Todo } from "../features/todo-slice";
 
@@ -22,11 +22,27 @@ export default function Table({ data }: { data: Todo[] }) {
         []
     ) as any;
 
+    const [filteredData, setFilterd] = useState(data)
+
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data }, useSortBy);
+        useTable({ columns, data: filteredData }, useSortBy);
+
+    const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        setFilterd(search.length > 1 ? data.filter(todo => todo.title.includes(search)) : data)
+    }, [filteredData, setFilterd, search, data])
 
     return (
         <Fragment>
+
+            <div className="flex py-4 gap-4 items-center">
+                <p className="font-bold">Search </p>
+                <input value={search} className="border border-gray-400 rounded-sm px-2 py-2" placeholder="Search item" onChange={e => {
+                    setSearch(e.target.value);
+                }} />
+            </div>
+
             <table className="text-center w-full" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (

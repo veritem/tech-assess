@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Nav() {
     return (
-        <nav className="flex justify-around border-b-2 border-blue-500 py-5">
+        <nav className="flex justify-between px-20 border-b-2 border-blue-500 py-5">
             <h2>
                 <Link to="/" className="font-bold">Tech-asess</Link>
             </h2>
@@ -13,7 +13,7 @@ export default function Nav() {
                 <li>
                     <Link to="/charts" className="font-bold">Chart</Link>
                 </li>
-                <li>
+                {/* <li>
                     <a
                         href="https://github.com/veritem/tech-assess"
                         rel="noreferrer"
@@ -22,7 +22,7 @@ export default function Nav() {
                     >
                         Github
                     </a>
-                </li>
+                </li> */}
             </ul>
         </nav>
     );
