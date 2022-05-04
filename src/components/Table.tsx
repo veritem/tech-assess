@@ -19,6 +19,7 @@ export default function Table({ data }: { data: Todo[] }) {
             {
                 Header: 'completed',
                 accessor: 'completed',
+                Cell: (props: { value: boolean }) => props.value ? 'Yes' : 'No'
             }
         ],
         []
@@ -33,7 +34,7 @@ export default function Table({ data }: { data: Todo[] }) {
 
     return (
         <Fragment>
-            <table className="text-center table-auto" {...getTableProps()}>
+            <table className="text-center w-full" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr
