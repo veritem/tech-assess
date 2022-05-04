@@ -8,7 +8,7 @@ export default function Nav() {
             </h2>
             <ul>
                 <li>
-                    <Link to="/charts">Charts</Link>
+                    <Link to="/charts">Chart</Link>
                 </li>
             </ul>
         </nav>
