@@ -6,12 +6,17 @@ export default function Nav() {
             <h2>
                 <Link to="/">Tech-asess</Link>
             </h2>
-            <ul>
+            <ul className="flex space-x-2">
+                <li>
+                    <Link to="/new">New todo</Link>
+                </li>
                 <li>
                     <Link to="/charts">Chart</Link>
                 </li>
                 <li>
-                    <Link to="https://github.com/veritem/tech-assess" target="_blank">Github</Link>
+                    <a href="https://github.com/veritem/tech-assess" rel="noreferrer" target="_blank">
+                        Github
+                    </a>
                 </li>
             </ul>
         </nav>

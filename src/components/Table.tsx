@@ -1,36 +1,30 @@
-import React, { Fragment, useMemo } from 'react'
-import { useSortBy, useTable } from 'react-table'
-import { Todo } from '../features/todo-slice'
+import React, { Fragment, useMemo } from "react";
+import { useSortBy, useTable } from "react-table";
+import { Todo } from "../features/todo-slice";
 
 export default function Table({ data }: { data: Todo[] }) {
-
-    console.log({ data })
 
     const columns = useMemo(
         () => [
             {
-                Header: 'ID',
-                accessor: 'id'
+                Header: "ID",
+                accessor: "id",
             },
             {
-                Header: 'Title',
-                accessor: 'title'
+                Header: "Title",
+                accessor: "title",
             },
             {
-                Header: 'completed',
-                accessor: 'completed',
-                Cell: (props: { value: boolean }) => props.value ? 'Yes' : 'No'
-            }
+                Header: "completed",
+                accessor: "completed",
+                Cell: (props: { value: boolean }) => (props.value ? "Yes" : "No"),
+            },
         ],
         []
-    ) as any
+    ) as any;
 
-
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-        { columns, data },
-        useSortBy
-    )
-
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+        useTable({ columns, data }, useSortBy);
 
     return (
         <Fragment>
@@ -43,18 +37,12 @@ export default function Table({ data }: { data: Todo[] }) {
                         >
                             {headerGroup.headers.map((column) => (
                                 <th
-                                    {...column.getHeaderProps(
-                                        column.getSortByToggleProps()
-                                    )}
+                                    {...column.getHeaderProps(column.getSortByToggleProps())}
                                     className="py-4 px-2"
                                 >
-                                    {column.render('Header')}
+                                    {column.render("Header")}
                                     <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? '↓'
-                                                : '↑'
-                                            : ''}
+                                        {column.isSorted ? (column.isSortedDesc ? "↓" : "↑") : ""}
                                     </span>
                                 </th>
                             ))}
@@ -64,30 +52,26 @@ export default function Table({ data }: { data: Todo[] }) {
 
                 <tbody {...getTableBodyProps()}>
                     {rows.map((row, index) => {
-                        prepareRow(row)
+                        prepareRow(row);
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                className={`cursor-pointer py-4 hover:bg-hover ${index % 2 !== 0 ? 'bg-alternateTable' : 'bg-white'
+                                className={`cursor-pointer py-4 hover:bg-hover ${index % 2 !== 0 ? "bg-alternateTable" : "bg-white"
                                     }`}
                             >
                                 {row.cells.map((cell) => {
                                     return (
                                         <td {...cell.getCellProps()} className="px-7 py-2">
-                                            {' '}
-                                            {
-                                                cell.render('Cell')
-                                            }{' '}
+                                            {" "}
+                                            {cell.render("Cell")}{" "}
                                         </td>
-                                    )
+                                    );
                                 })}
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
-
         </Fragment>
-
-    )
+    );
 }
