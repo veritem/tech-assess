@@ -4,17 +4,22 @@ export default function Nav() {
     return (
         <nav className="flex justify-around border-b-2 border-blue-500 py-5">
             <h2>
-                <Link to="/">Tech-asess</Link>
+                <Link to="/" className="font-bold">Tech-asess</Link>
             </h2>
-            <ul className="flex space-x-2">
+            <ul className="flex space-x-6">
                 <li>
-                    <Link to="/new">New todo</Link>
+                    <Link to="/new" className="font-bold">New todo</Link>
                 </li>
                 <li>
-                    <Link to="/charts">Chart</Link>
+                    <Link to="/charts" className="font-bold">Chart</Link>
                 </li>
                 <li>
-                    <a href="https://github.com/veritem/tech-assess" rel="noreferrer" target="_blank">
+                    <a
+                        href="https://github.com/veritem/tech-assess"
+                        rel="noreferrer"
+                        target="_blank"
+                        className="font-bold"
+                    >
                         Github
                     </a>
                 </li>

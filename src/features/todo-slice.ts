@@ -18,8 +18,17 @@ export const todoSlice = createApi({
           return "/";
         },
       }),
+      addTodo: builder.mutation<Todo, Partial<Todo>>({
+        query(body) {
+          return {
+            url: "/",
+            method: "POST",
+            body,
+          };
+        },
+      }),
     };
   },
 });
 
-export const { useFetchTodosQuery } = todoSlice;
+export const { useFetchTodosQuery, useAddTodoMutation } = todoSlice;

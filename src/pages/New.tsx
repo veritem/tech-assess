@@ -1,22 +1,32 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useAddTodoMutation } from "../features/todo-slice";
 
 export default function New() {
-
     const [value, setValue] = useState("");
+
+    const [addTodo, { isLoading }] = useAddTodoMutation();
+
+    const navigate = useNavigate()
 
     return (
         <section className="flex justify-center items-center py-5 flex-col my-12">
             <h1 className="text-4xl my-4">Create new todo</h1>
-            <form className="w-full max-w-lg"
-                onSubmit={(e) => {
+            <form
+                className="w-full max-w-lg"
+                onSubmit={async (e) => {
                     e.preventDefault();
-                    console.log(value);
+
+                    toast.success("Todo added!");
+                    await addTodo({ title: value });
+                    setValue("");
+                    navigate("/");
                 }}
             >
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
                         <label
-
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-title"
                         >
@@ -31,7 +41,11 @@ export default function New() {
                             placeholder="Title"
                         />
                     </div>
-                    <input type="submit" value="Submit" className="bg-blue-500 w-full cursor-pointer py-4 text-white rounded-md mx-3" />
+                    <input
+                        type="submit"
+                        value={isLoading ? "Submitting" : "Submit"}
+                        className="bg-blue-500 w-full cursor-pointer py-4 text-white rounded-md mx-3"
+                    />
                 </div>
             </form>
         </section>

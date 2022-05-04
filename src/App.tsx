@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Chart from "./pages/Chart";
@@ -13,6 +14,7 @@ function App() {
         <Route path="charts" element={<Chart />} />
         <Route path="/new" element={<New />} />
       </Routes>
+      <Toaster />
     </section>
   );
 }
