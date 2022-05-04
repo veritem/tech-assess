@@ -1,6 +1,8 @@
+import Fuse from 'fuse.js';
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useSortBy, useTable } from "react-table";
 import { Todo } from "../features/todo-slice";
+
 
 export default function Table({ data }: { data: Todo[] }) {
     const columns = useMemo(
@@ -29,9 +31,20 @@ export default function Table({ data }: { data: Todo[] }) {
 
     const [search, setSearch] = useState("");
 
+    //@ts-ignore
+    const fuse = new Fuse(data, {
+        keys: ['title', 'id'],
+    })
+
+    const result = fuse.search(search)
+
     useEffect(() => {
-        setFilterd(search.length > 1 ? data.filter(todo => todo.title.includes(search)) : data)
-    }, [filteredData, setFilterd, search, data])
+        // setFilterd(search.length > 1 ? data.filter(todo => todo.title.includes(search)) : data)
+        setFilterd(search ? result.map(r => r.item) : data)
+    }, [filteredData, setFilterd, search, data, result])
+
+
+
 
     return (
         <Fragment>
