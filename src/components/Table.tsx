@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js';
 import React, { Fragment, useEffect, useMemo, useState } from "react";
-import { useSortBy, useTable } from "react-table";
+import { usePagination, useSortBy, useTable } from "react-table";
 import { Todo } from "../features/todo-slice";
 
 
@@ -26,8 +26,8 @@ export default function Table({ data }: { data: Todo[] }) {
 
     const [filteredData, setFilterd] = useState(data)
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data: filteredData }, useSortBy);
+    const { getTableProps, pageCount, pageOptions, state: { pageIndex, pageSize = 10 }, getTableBodyProps, headerGroups, rows, prepareRow } =
+        useTable({ columns, data: filteredData, initialState: { pageIndex: 1 } }, useSortBy, usePagination);
 
     const [search, setSearch] = useState("");
 
@@ -36,14 +36,18 @@ export default function Table({ data }: { data: Todo[] }) {
         keys: ['title', 'id'],
     })
 
+    console.log({ pageCount })
+
     const result = fuse.search(search)
+
 
     useEffect(() => {
         // setFilterd(search.length > 1 ? data.filter(todo => todo.title.includes(search)) : data)
         setFilterd(search ? result.map(r => r.item) : data)
-    }, [filteredData, setFilterd, search, data, result])
+    }, [filteredData, search])
 
 
+    // console.log({ pageOptions })
 
 
     return (
@@ -100,6 +104,12 @@ export default function Table({ data }: { data: Todo[] }) {
                     })}
                 </tbody>
             </table>
+
+            <div className="flex justify-center">
+                Page  {pageIndex} of {pageCount}
+            </div>
+
+
         </Fragment>
     );
 }
