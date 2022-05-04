@@ -36,18 +36,14 @@ export default function Table({ data }: { data: Todo[] }) {
         keys: ['title', 'id'],
     })
 
-    console.log({ pageCount })
 
     const result = fuse.search(search)
 
 
     useEffect(() => {
-        // setFilterd(search.length > 1 ? data.filter(todo => todo.title.includes(search)) : data)
         setFilterd(search ? result.map(r => r.item) : data)
     }, [filteredData, search])
 
-
-    // console.log({ pageOptions })
 
 
     return (
