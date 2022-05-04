@@ -1,8 +1,7 @@
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { Todo } from "../features/todo-slice";
-
 
 export default function Table({ data }: { data: Todo[] }) {
     const columns = useMemo(
@@ -24,36 +23,49 @@ export default function Table({ data }: { data: Todo[] }) {
         []
     ) as any;
 
-    const [filteredData, setFilterd] = useState(data)
+    const [filteredData, setFilterd] = useState(data);
 
-    const { getTableProps, pageCount, pageOptions, state: { pageIndex, pageSize = 10 }, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data: filteredData, initialState: { pageIndex: 1 } }, useSortBy, usePagination);
+    const {
+        getTableProps,
+        pageCount,
+        nextPage,
+        previousPage,
+        state: { pageIndex },
+        getTableBodyProps,
+        headerGroups,
+        page,
+        prepareRow,
+    } = useTable(
+        { columns, data: filteredData, initialState: { pageIndex: 0 } },
+        useSortBy,
+        usePagination
+    );
 
     const [search, setSearch] = useState("");
 
     //@ts-ignore
     const fuse = new Fuse(data, {
-        keys: ['title', 'id'],
-    })
+        keys: ["title", "id"],
+    });
 
-
-    const result = fuse.search(search)
-
+    const result = fuse.search(search);
 
     useEffect(() => {
-        setFilterd(search ? result.map(r => r.item) : data)
-    }, [filteredData, search])
-
-
+        setFilterd(search ? result.map((r) => r.item) : data);
+    }, [filteredData, search]);
 
     return (
         <Fragment>
-
             <div className="flex py-4 gap-4 items-center">
                 <p className="font-bold">Search </p>
-                <input value={search} className="border border-gray-400 rounded-sm px-2 py-2" placeholder="Search item" onChange={e => {
-                    setSearch(e.target.value);
-                }} />
+                <input
+                    value={search}
+                    className="border border-gray-400 rounded-sm px-2 py-2"
+                    placeholder="Search item"
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                    }}
+                />
             </div>
 
             <table className="text-center w-full" {...getTableProps()}>
@@ -79,7 +91,7 @@ export default function Table({ data }: { data: Todo[] }) {
                 </thead>
 
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, index) => {
+                    {page.map((row, index) => {
                         prepareRow(row);
                         return (
                             <tr
@@ -101,11 +113,13 @@ export default function Table({ data }: { data: Todo[] }) {
                 </tbody>
             </table>
 
-            <div className="flex justify-center">
-                Page  {pageIndex} of {pageCount}
+            <div className="flex justify-center gap-4 my-4">
+                <button onClick={() => previousPage()} className="bg-blue-500 px-2 text-white rounded-sm">Previous page</button> {" "}
+                <span>
+                    {pageIndex + 1} of {pageCount}{" "}
+                </span>
+                <button onClick={() => nextPage()} className="bg-blue-500 px-2 text-white rounded-sm">Next page </button>
             </div>
-
-
         </Fragment>
     );
 }
