@@ -19,7 +19,7 @@ export default function New() {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          toast.success("Todo added!");
+          toast.success("Post added!");
           await addTodo({ title: value, body });
           setValue("");
           navigate("/");
