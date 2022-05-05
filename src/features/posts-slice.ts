@@ -1,24 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export interface Todo {
+export interface Post {
   id: string;
   title: string;
-  completed: boolean;
+  body: string;
 }
 
 export const todoSlice = createApi({
-  reducerPath: "/todos",
+  reducerPath: "/posts",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com/users/1/todos",
+    baseUrl: "https://jsonplaceholder.typicode.com/posts",
   }),
   endpoints(builder) {
     return {
-      fetchTodos: builder.query<Todo[], void>({
+      fetchPosts: builder.query<Post[], void>({
         query() {
           return "/";
         },
       }),
-      addTodo: builder.mutation<Todo, Partial<Todo>>({
+      addPost: builder.mutation<Post, Partial<Post>>({
         query(body) {
           return {
             url: "/",
@@ -28,7 +28,7 @@ export const todoSlice = createApi({
         },
       }),
 
-      updateTodo: builder.mutation<Todo, Partial<Todo>>({
+      updatePost: builder.mutation<Post, Partial<Post>>({
         query(body) {
           return {
             url: `/${body.id}`,
@@ -37,7 +37,7 @@ export const todoSlice = createApi({
           };
         }
       }),
-      deleteTodo: builder.mutation<Todo, { id: string }>({
+      deletePost: builder.mutation<Post, { id: string }>({
         query(body) {
           return {
             url: `/${body.id}`,
@@ -50,4 +50,4 @@ export const todoSlice = createApi({
   },
 });
 
-export const { useFetchTodosQuery, useAddTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } = todoSlice;
+export const { useFetchPostsQuery, useAddPostMutation, useDeletePostMutation, useUpdatePostMutation } = todoSlice;

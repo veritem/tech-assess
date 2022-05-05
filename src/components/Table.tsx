@@ -2,12 +2,12 @@ import Fuse from "fuse.js";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { usePagination, useSortBy, useTable } from "react-table";
-import { Todo, useDeleteTodoMutation, useUpdateTodoMutation } from "../features/todo-slice";
+import { Post, useDeletePostMutation, useUpdatePostMutation } from "../features/posts-slice";
 
-export default function Table({ data }: { data: Todo[] }) {
+export default function Table({ data }: { data: Post[] }) {
 
-    const [deleteTodo] = useDeleteTodoMutation()
-    const [updateTodo] = useUpdateTodoMutation()
+    const [deletePost] = useDeletePostMutation()
+    const [updatePost] = useUpdatePostMutation()
 
 
     // eslint-disable-next-line
@@ -22,9 +22,8 @@ export default function Table({ data }: { data: Todo[] }) {
                 accessor: "title",
             },
             {
-                Header: "completed",
-                accessor: "completed",
-                Cell: (props: { value: boolean }) => (props.value ? "Yes" : "No"),
+                Header: "body",
+                accessor: "body",
             },
             {
                 Header: "Actions",
@@ -33,13 +32,13 @@ export default function Table({ data }: { data: Todo[] }) {
                     <div className="flex gap-3 items-center text-white">
                         <button
                             onClick={async () => {
-                                await deleteTodo({ id: row.original.id })
+                                await deletePost({ id: row.original.id })
                                 toast.success("Deleted")
                             }} className="bg-red-500 p-2"> delete
                         </button>
                         <button
                             onClick={async () => {
-                                await updateTodo({ id: row.original.id, completed: !row.original.completed })
+                                await updatePost({ id: row.original.id, body: "updated" })
                                 toast.success("Updated")
                             }} className="bg-green-600 p-2"> update
                         </button>

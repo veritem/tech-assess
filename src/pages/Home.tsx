@@ -1,8 +1,8 @@
 import Table from "../components/Table";
-import { useFetchTodosQuery } from "../features/todo-slice";
+import { useFetchPostsQuery } from "../features/posts-slice";
 
 export default function Home() {
-  const { data, isLoading, error } = useFetchTodosQuery();
+  const { data, isLoading, error } = useFetchPostsQuery();
 
   if (isLoading) {
     return <div>Loading...</div>;
