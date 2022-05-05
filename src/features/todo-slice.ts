@@ -27,8 +27,27 @@ export const todoSlice = createApi({
           };
         },
       }),
+
+      updateTodo: builder.mutation<Todo, Partial<Todo>>({
+        query(body) {
+          return {
+            url: `/${body.id}`,
+            method: "PUT",
+            body,
+          };
+        }
+      }),
+      deleteTodo: builder.mutation<Todo, { id: string }>({
+        query(body) {
+          return {
+            url: `/${body.id}`,
+            method: "DELETE",
+            body,
+          };
+        }
+      })
     };
   },
 });
 
-export const { useFetchTodosQuery, useAddTodoMutation } = todoSlice;
+export const { useFetchTodosQuery, useAddTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } = todoSlice;

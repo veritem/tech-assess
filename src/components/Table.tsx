@@ -1,9 +1,16 @@
 import Fuse from "fuse.js";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { usePagination, useSortBy, useTable } from "react-table";
-import { Todo } from "../features/todo-slice";
+import { Todo, useDeleteTodoMutation, useUpdateTodoMutation } from "../features/todo-slice";
 
 export default function Table({ data }: { data: Todo[] }) {
+
+    const [deleteTodo] = useDeleteTodoMutation()
+    const [updateTodo] = useUpdateTodoMutation()
+
+
+    // eslint-disable-next-line
     const columns = useMemo(
         () => [
             {
@@ -19,11 +26,33 @@ export default function Table({ data }: { data: Todo[] }) {
                 accessor: "completed",
                 Cell: (props: { value: boolean }) => (props.value ? "Yes" : "No"),
             },
+            {
+                Header: "Actions",
+                //@ts-ignore
+                Cell: ({ row }) => (
+                    <div className="flex gap-3 items-center text-white">
+                        <button
+                            onClick={async () => {
+                                await deleteTodo({ id: row.original.id })
+                                toast.success("Deleted")
+                            }} className="bg-red-500 p-2"> delete
+                        </button>
+                        <button
+                            onClick={async () => {
+                                await updateTodo({ id: row.original.id, completed: !row.original.completed })
+                                toast.success("Updated")
+                            }} className="bg-green-600 p-2"> update
+                        </button>
+                    </div>
+                ),
+            }
         ],
+        // eslint-disable-next-line
         []
     ) as any;
 
     const [filteredData, setFilterd] = useState(data);
+
 
     const {
         getTableProps,
@@ -52,6 +81,7 @@ export default function Table({ data }: { data: Todo[] }) {
 
     useEffect(() => {
         setFilterd(search ? result.map((r) => r.item) : data);
+        // eslint-disable-next-line
     }, [filteredData, search]);
 
     return (
@@ -114,11 +144,11 @@ export default function Table({ data }: { data: Todo[] }) {
             </table>
 
             <div className="flex justify-center gap-4 my-4">
-                <button onClick={() => previousPage()} className="bg-blue-500 px-2 text-white rounded-sm">Previous page</button> {" "}
+                <button onClick={() => previousPage()} className="bg-blue-500 px-2 text-white rounded-sm">{"<<"}</button> {" "}
                 <span>
                     {pageIndex + 1} of {pageCount}{" "}
                 </span>
-                <button onClick={() => nextPage()} className="bg-blue-500 px-2 text-white rounded-sm">Next page </button>
+                <button onClick={() => nextPage()} className="bg-blue-500 px-2 text-white rounded-sm">{">>"} </button>
             </div>
         </Fragment>
     );
